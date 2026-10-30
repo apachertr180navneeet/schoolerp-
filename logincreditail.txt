@@ -1,0 +1,10 @@
+url :- http://127.0.0.1:8000/login
+
+username :- admin@mail.com
+password :- 123456
+
+db detail :- 
+
+db :- gsgwevi6_school_erp
+password :- M0dy~n?QQsjg
+username :- gsgwevi6_school_erp
