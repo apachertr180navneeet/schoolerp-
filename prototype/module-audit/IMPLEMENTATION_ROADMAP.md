@@ -1,132 +1,81 @@
-# School ERP Implementation Roadmap
+# Implementation Roadmap: School ERP Enterprise Sprints
 
-**Project:** Shiksha Mitra — Single-School ERP Software (CBSE & State Board)  
-**Audit Reference:** `prototype/module-audit/MODULE_AUDIT_REPORT.md`  
-**Target Architecture:** Laravel 11 + MySQL 8 + Bootstrap 5.3  
+**Project:** Shiksha Mitra — Single-School ERP Software  
+**Curriculum Alignment:** CBSE + State Board Standards  
+**Audit Date:** 2026-10-31  
 
 ---
 
-## Roadmap Overview
+## 1. Roadmap Overview & Completed Milestones
 
-Based on the forensic audit of the existing codebase, the core engine currently covers basic **User Management**, **Setup Tables**, **Student Bio Data & Enrollment**, **Staff Records & Basic Attendance**, **Marks Entry & Grade Rules**, **Basic Fee Collection**, and **Profit/Marksheet Reports**.
-
-To achieve a production-grade, comprehensive School ERP covering all 55 modules, development must proceed in prioritized phases:
-
-```mermaid
-flowchart TD
-    P0["Phase 0: Architecture, Navigation & Security"] --> P1["Phase 1: Student Lifecycle, Admissions & Academics"]
-    P1 --> P2["Phase 2: Attendance, Exams, Advanced Finance & HR"]
-    P2 --> P3["Phase 3: Operations, Portals, Communication & MIS"]
+```
+[ Phase 0: Polish ] ➔ [ Phase 1: Core Operations ] ➔ [ Phase 2: Academic & Noticeboard ] ➔ [ Phase 3: Portals & Integrations ]
+    ✓ COMPLETED              ✓ COMPLETED                      NEXT SPRINT                         UPCOMING
 ```
 
----
-
-## Phase 0: Immediate Fixes & Foundation (Sprint 1)
-> **Goal:** Eliminate all navigation defects, polish responsive UI, and secure foundational data structures.
-
-* **Task 0.1:** Connect header notification bell to an interactive alerts modal with mock/live event notifications.
-* **Task 0.2:** Replace all placeholder hash links (`href="#"`) with proper route helpers or accessible button elements.
-* **Task 0.3:** Add dynamic hierarchical breadcrumbs on all inner views (`@section('breadcrumb')`).
-* **Task 0.4:** Fix horizontal scrolling overflow on data tables on mobile viewports (<768px).
-* **Task 0.5:** Build School Master Profile configuration page (Module 2) so school name, logo, affiliation code, and address dynamically populate on all PDF marksheets, ID cards, and receipts.
-
----
-
-## Phase 1: Admissions, SIS, & Core Academics (Sprint 2 - 4)
-> **Goal:** Complete the student onboarding pipeline, daily student attendance, and classroom scheduling.
-
-### 1.1 Daily Student Attendance (Module 17 - P0)
-* Create `student_attendances` migration (student_id, class_id, year_id, date, attend_status).
-* Build teacher quick attendance interface (`/students/attendance/view`, `/students/attendance/add`).
-* Add 1-click "Mark All Present", absent alerts, and monthly attendance matrix view.
-
-### 1.2 Admission CRM & Intake Pipeline (Modules 6 & 7 - P1)
-* Build Enquiry registration form with pipeline status tracking (New $\rightarrow$ Contacted $\rightarrow$ Visited $\rightarrow$ Form Sold $\rightarrow$ Admitted).
-* Create Admission Application review queue with document checklist.
-* Add 1-click "Promote to Enrolled Student" button syncing with `users` and `assign_students`.
-
-### 1.3 Extended Student Profile & Lifecycle (Modules 8, 9 & 10 - P1)
-* Expand student profile into tabbed view:
-  * Personal & Parent Details
-  * Medical Records & Emergency Contacts
-  * Document Locker (Birth Certificate, Aadhar, Previous Marksheet)
-* Build School Leaving Certificate (SLC / TC) and Character Certificate auto-generation with fee-clearance validation.
-
-### 1.4 Timetable & Class Schedule (Module 13 - P1)
-* Create `timetables` migration (class_id, day, period, subject_id, teacher_id, room_no).
-* Build interactive visual grid scheduler (Monday–Saturday, 8 periods).
-* Add conflict detector for duplicate teacher or classroom allocation.
-* Create proxy/substitute teacher assignment for absent staff.
+### Completed Sprints (Phases 0 & 1):
+- [x] **Navigation & Shell Polish (P0)**: Header notification modal connected, footer link updated, Bootstrap Icons CDN integrated, Plus Jakarta Sans typography applied, and executive dashboard overhauled.
+- [x] **School Master Profile (P0)**: Configured institutional CBSE affiliation code, board, logo, official seal, and campus contact details.
+- [x] **Academic Master Sections (P0)**: Sections A, B, C, D with capacity controls linked to student assignment.
+- [x] **Admission Enquiry & Pipeline CRM (P1)**: Leads pipeline, stage metrics (New, Contacted, Assessment Scheduled, Admitted).
+- [x] **Student Daily Attendance System (P1)**: Daily roster attendance marking (Present, Absent, Leave), logs, and detailed attendance summary.
+- [x] **Class Timetable Matrix (P1)**: Weekly period matrix across Monday–Saturday with teacher and room assignments.
+- [x] **Board-Compliant Certificates (P1)**: Formal Transfer Certificate (TC/SLC) and Bonafide Certificate PDF generators.
+- [x] **Library Management System (P1)**: Catalog stock inventory and circulation counter with automated overdue fine calculation.
+- [x] **Transport Fleet Management (P1)**: School buses, transit routes, key stoppages, and student bus subscription allocations.
 
 ---
 
-## Phase 2: Advanced Finance, Examinations & Operations (Sprint 5 - 8)
-> **Goal:** Modernize billing, automate statutory payroll, exam datesheets, and fleet transport.
+## 2. Phase 2: Academic Workflows, Communication & Store (Next Sprint)
 
-### 2.1 Advanced Fee Management (Modules 25, 26 & 28 - P1)
-* Add late fine rule engine (grace days + daily or fixed penalty).
-* Implement multi-installment billing breakdown (Term 1, Term 2, Term 3).
-* Create dual-copy printable fee receipt voucher (Student Copy & School Office Copy).
-* Build Fee Defaulters recovery register with 1-click reminder triggers.
+### Target Sprint Duration: Sprint 3
 
-### 2.2 Examination Datesheet & Admit Cards (Module 20 - P1)
-* Create exam datesheet generator by Class and Exam Type.
-* Build printable Admit Card / Hall Ticket with student photo, exam roll, timetable, and instructions.
-
-### 2.3 Comprehensive Staff Payroll (Module 32 - P2)
-* Add earnings (Basic, DA, HRA, Allowances) and statutory deductions (PF, ESI, TDS, PT).
-* Generate formal monthly salary slips with breakdown.
-* Export bank NEFT/RTGS salary disbursement sheet.
-
-### 2.4 Transport Fleet Management (Module 34 - P1)
-* Vehicle Master (Bus No, RC, Fitness, Insurance, Pollution expiry alerts).
-* Driver & conductor directory with license verification.
-* Route & stop manager with pickup timings and monthly transport fee allocation.
-
-### 2.5 Library Circulation System (Module 35 - P1)
-* Book cataloguing register (ISBN, Accession No, Title, Author, Shelf location).
-* Issue & Return counter with barcode scanner input support.
-* Automatic overdue fine calculator and book reservation ledger.
+| Module ID | Module & Feature | Description & Implementation Tasks | Priority |
+| :--- | :--- | :--- | :--- |
+| **Module 15** | **Homework & Assignment Management** | Create `homeworks` and `homework_submissions` tables.<br>Build homework creator for teachers (class, section, subject, deadline, attachment).<br>Build submission evaluator with marks and feedback. | **P1** |
+| **Module 42** | **Communication & Noticeboard** | Create `notices` table.<br>Build campus notice publisher with target audience filter (All, Teachers, Parents, Specific Class).<br>Display live noticeboard widget on dashboard. | **P1** |
+| **Module 43** | **Front Office & Visitor Management** | Create `visitors` table.<br>Build visitor check-in, purpose of visit, person to meet, and printable Visitor Gate Pass. | **P2** |
+| **Module 36** | **Inventory & Store Procurement** | Create `inventory_items` and `inventory_transactions` tables.<br>Manage school supplies (stationery, science lab supplies, sports gear) with inward/outward stock ledger. | **P2** |
+| **Module 20** | **Exam Datesheet & Admit Cards** | Create `exam_schedules` table.<br>Generate printable examination datesheets and student admit cards (hall tickets) with exam rules. | **P2** |
+| **Module 28** | **Fee Defaulters & Reminder Register** | Build automated fee defaulters list with overdue months and fine penalties.<br>Add one-click template reminder generator. | **P2** |
 
 ---
 
-## Phase 3: Portals, Communication & Compliance (Sprint 9 - 12)
-> **Goal:** Empower parents, teachers, and students through dedicated self-service portals and government reporting.
+## 3. Phase 3: Dedicated Portals, Online Exam & E-Learning
 
-### 3.1 Role-Specific Portals (Modules 39, 40 & 41 - P1)
-* **Parent Portal:** Student report card, fee dues payment, daily attendance calendar, teacher messages.
-* **Student Portal:** Homework assignments, class schedule, digital library, online quiz.
-* **Teacher Portal:** Today's timetable, quick attendance marker, marks entry, student diary, leave application.
+### Target Sprint Duration: Sprint 4
 
-### 3.2 Communication & Notification Center (Module 42 - P1)
-* Broadcast SMS & WhatsApp notification composer.
-* Class circulars, event announcements, and emergency school alerts.
-* Delivery status logbook.
-
-### 3.3 Inventory & Procurement (Module 36 - P2)
-* Stationery, sports, and laboratory consumables inventory.
-* Purchase order workflow and stock inward/outward ledger.
-
-### 3.4 Government & Compliance Reporting (Module 53 - P2)
-* Automated UDISE+ compliant student data export (CSV/Excel).
-* CBSE OASIS mandatory disclosure and board returns.
-* RTE 25% quota monitoring register.
-
-### 3.5 Executive MIS Analytics Dashboard (Module 55 - P1)
-* High-level operational intelligence:
-  * Annual Financial Revenue vs Expenditure trends.
-  * Class-wise Academic Pass & Distinction distribution.
-  * Real-time Student & Staff attendance rates.
-  * Comprehensive custom export center.
+| Module ID | Module & Feature | Description & Implementation Tasks | Priority |
+| :--- | :--- | :--- | :--- |
+| **Module 41** | **Teacher Workspace Portal** | Dedicated portal interface for teachers to manage daily class attendance, enter exam marks, and assign homework. | **P2** |
+| **Module 40** | **Student Self-Service Portal** | Dedicated student portal to view personal class timetable, download homework, check attendance history, and view report cards. | **P2** |
+| **Module 39** | **Parent Portal** | Dedicated parent portal to track student academic progress, view attendance logs, and download fee receipts. | **P2** |
+| **Module 24** | **Online Examination System** | Create `online_exams` and `exam_questions` tables.<br>Build MCQ online quiz interface with countdown timer and automated score calculation. | **P3** |
+| **Module 16** | **Learning Resource Library** | Digital study notes, syllabus PDFs, and previous years' question papers repository. | **P3** |
+| **Module 51** | **Learning Management System (LMS)** | Online video lecture lessons and chapter progression tracker. | **P3** |
+| **Module 38** | **Hostel & Dormitory Management** | Hostel building, room numbers, bed allocation, and mess menu scheduler. | **P3** |
 
 ---
 
-## Summary Deliverables & Checkpoints
+## 4. Phase 4: Integrations, Compliance & System Administration
 
-| Phase | Duration | Core Deliverables | Verification Milestone |
-|---|---|---|---|
-| **Phase 0** | 1 Week | Polish UI, fix broken links, dynamic breadcrumbs, school profile | Zero dead links, 100% mobile responsive |
-| **Phase 1** | 3 Weeks | Daily Student Attendance, Admission CRM, SIS Locker, Timetable | Full admission-to-classroom workflow functional |
-| **Phase 2** | 4 Weeks | Late fines, Printable Receipts, Admit Cards, Payroll, Bus, Library | Financial integrity & operational management active |
-| **Phase 3** | 4 Weeks | Parent/Student/Teacher Portals, SMS Broadcasts, UDISE+, MIS | Multi-role self-service & executive analytics live |
+### Target Sprint Duration: Sprint 5
 
+| Module ID | Module & Feature | Description & Implementation Tasks | Priority |
+| :--- | :--- | :--- | :--- |
+| **Module 5** | **System Administration & Audit Log** | Detailed user audit logbook recording record creation, updates, and deletes with IP and timestamp.<br>Automated database backup trigger. | **P3** |
+| **Module 53** | **Government & Compliance (UDISE+)** | Standardized data export formatted for UDISE+ and CBSE OASIS regulatory submission. | **P2** |
+| **Module 52** | **Third-Party Gateways & APIs** | Configuration interface for SMS gateways (Twilio, Textlocal), WhatsApp Cloud API, and Payment Gateways (Razorpay, Paytm). | **P3** |
+| **Module 44** | **Website CMS & News Banner** | Public school landing website CMS with news ticker, event calendar, and photo gallery. | **P3** |
+| **Module 54** | **Alumni Network Management** | Alumni directory, graduation year batch records, and alumni reunion announcements. | **P3** |
+| **Module 46–50**| **Student Welfare & Medical** | Health checkup records, campus infirmary visit logs, and confidential student counselling notes. | **P3** |
+
+---
+
+## 5. Technical Validation Plan
+
+Before releasing each phase to production:
+1. **Automated Feature Tests**: Every new module must include dedicated feature tests in `tests/Feature/` asserting HTTP 200 responses for list, add, and store actions.
+2. **Database Seeder Parity**: All new models must be registered with realistic demo data in `database/seeders/DatabaseSeeder.php`.
+3. **Role & Permission Guarding**: Every route must be protected by authentication and role middleware.
+4. **Zero Link Degradation**: Run link integrity tests to guarantee no placeholder `#` or dead routes exist.

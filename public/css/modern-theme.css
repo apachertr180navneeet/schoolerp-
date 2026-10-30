@@ -498,3 +498,4 @@ body {
 .badge.bg-danger  { background-color: var(--sms-danger-subtle) !important; color: #b91c1c !important; }
 .badge.bg-info    { background-color: var(--sms-secondary-subtle) !important; color: #0369a1 !important; }
 .badge.bg-secondary { background-color: #f1f5f9 !important; color: #475569 !important; }
+
