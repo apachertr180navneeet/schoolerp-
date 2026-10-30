@@ -93,4 +93,103 @@ class NewModulesTest extends TestCase
         $responseStudent->assertStatus(200);
         $responseStudent->assertSee('Student Transport Allocations', false);
     }
+
+    public function test_homework_screens_load(): void
+    {
+        $response = $this->actingAs($this->adminUser)->get(route('homework.view'));
+        $response->assertStatus(200);
+        $response->assertSee('Homework', false);
+
+        $responseAdd = $this->actingAs($this->adminUser)->get(route('homework.add'));
+        $responseAdd->assertStatus(200);
+        $responseAdd->assertSee('Assign New Homework', false);
+    }
+
+    public function test_notice_screens_load(): void
+    {
+        $response = $this->actingAs($this->adminUser)->get(route('notice.view'));
+        $response->assertStatus(200);
+        $response->assertSee('Notice Board', false);
+
+        $responseAdd = $this->actingAs($this->adminUser)->get(route('notice.add'));
+        $responseAdd->assertStatus(200);
+        $responseAdd->assertSee('Post Circular Notice', false);
+    }
+
+    public function test_front_office_screens_load(): void
+    {
+        $response = $this->actingAs($this->adminUser)->get(route('visitor.view'));
+        $response->assertStatus(200);
+        $response->assertSee('Front Office', false);
+
+        $responseAdd = $this->actingAs($this->adminUser)->get(route('visitor.add'));
+        $responseAdd->assertStatus(200);
+        $responseAdd->assertSee('New Visitor Entry Pass', false);
+    }
+
+    public function test_inventory_screens_load(): void
+    {
+        $response = $this->actingAs($this->adminUser)->get(route('inventory.item.view'));
+        $response->assertStatus(200);
+        $response->assertSee('Store Inventory', false);
+
+        $responseAdd = $this->actingAs($this->adminUser)->get(route('inventory.item.add'));
+        $responseAdd->assertStatus(200);
+
+        $responseIssue = $this->actingAs($this->adminUser)->get(route('inventory.issue.view'));
+        $responseIssue->assertStatus(200);
+        $responseIssue->assertSee('Inventory Issue', false);
+    }
+
+    public function test_exam_schedule_screens_load(): void
+    {
+        $response = $this->actingAs($this->adminUser)->get(route('exam.schedule.view'));
+        $response->assertStatus(200);
+        $response->assertSee('Examination Datesheet', false);
+
+        $responseAdmit = $this->actingAs($this->adminUser)->get(route('exam.admitcard.view'));
+        $responseAdmit->assertStatus(200);
+        $responseAdmit->assertSee('Generate Student Admit Card', false);
+    }
+
+    public function test_hostel_screens_load(): void
+    {
+        $response = $this->actingAs($this->adminUser)->get(route('hostel.room.view'));
+        $response->assertStatus(200);
+        $response->assertSee('Hostel', false);
+
+        $responseAllot = $this->actingAs($this->adminUser)->get(route('hostel.allotment.view'));
+        $responseAllot->assertStatus(200);
+        $responseAllot->assertSee('Hostel Bed Allotments', false);
+    }
+
+    public function test_student_medical_and_leave_screens_load(): void
+    {
+        $responseMed = $this->actingAs($this->adminUser)->get(route('student.medical.view'));
+        $responseMed->assertStatus(200);
+        $responseMed->assertSee('Health & Medical Records', false);
+
+        $responseLeave = $this->actingAs($this->adminUser)->get(route('student.leave.view'));
+        $responseLeave->assertStatus(200);
+        $responseLeave->assertSee('Student Leave Applications', false);
+    }
+
+    public function test_system_activity_and_portals_load(): void
+    {
+        $responseLog = $this->actingAs($this->adminUser)->get(route('system.activity.log'));
+        $responseLog->assertStatus(200);
+        $responseLog->assertSee('System Audit & Activity Logs', false);
+
+        $responseParent = $this->actingAs($this->adminUser)->get(route('portal.parent.dashboard'));
+        $responseParent->assertStatus(200);
+        $responseParent->assertSee('Parent Portal', false);
+
+        $responseStudent = $this->actingAs($this->adminUser)->get(route('portal.student.dashboard'));
+        $responseStudent->assertStatus(200);
+        $responseStudent->assertSee('Student Portal', false);
+
+        $responseTeacher = $this->actingAs($this->adminUser)->get(route('portal.teacher.dashboard'));
+        $responseTeacher->assertStatus(200);
+        $responseTeacher->assertSee('Teacher Workspace', false);
+    }
 }

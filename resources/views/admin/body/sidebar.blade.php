@@ -69,13 +69,15 @@
             </ul>
         </li>
 
-        <li class="nav-item {{ (Request::is('*student*') || Request::is('*certificate*')) && !Request::is('*timetable*') && !Request::is('*attendance*') ? 'active' : '' }}">
+        <li class="nav-item {{ (Request::is('*student*') || Request::is('*certificate*')) && !Request::is('*timetable*') && !Request::is('*attendance*') && !Request::is('*medical*') && !Request::is('*leave*') ? 'active' : '' }}">
             <a href="#" class="nav-link" onclick="toggleSubmenu(this); return false;">
                 <i class="bi bi-mortarboard-fill"></i><span>Student Lifecycle</span><i class="bi bi-chevron-down"></i>
             </a>
             <ul class="nav-submenu">
                 <li><a href="{{ route('student.registration.view') }}" class="nav-link"><i class="bi bi-dot"></i>Student Directory</a></li>
                 <li><a href="{{ route('student.attendance.view') }}" class="nav-link"><i class="bi bi-dot"></i>Daily Attendance</a></li>
+                <li><a href="{{ route('student.medical.view') }}" class="nav-link"><i class="bi bi-dot"></i>Health & Medical Records</a></li>
+                <li><a href="{{ route('student.leave.view') }}" class="nav-link"><i class="bi bi-dot"></i>Student Leave Requests</a></li>
                 <li><a href="{{ route('certificate.tc.view') }}" class="nav-link"><i class="bi bi-dot"></i>Transfer Certificate (TC)</a></li>
                 <li><a href="{{ route('certificate.bonafide.view') }}" class="nav-link"><i class="bi bi-dot"></i>Bonafide Certificate</a></li>
                 <li><a href="{{ route('roll.generate.view') }}" class="nav-link"><i class="bi bi-dot"></i>Roll Number Generate</a></li>
@@ -85,13 +87,14 @@
             </ul>
         </li>
 
-        <li class="nav-item {{ Request::is('*academic*') || Request::is('*timetable*') ? 'active' : '' }}">
+        <li class="nav-item {{ Request::is('*academic*') || Request::is('*timetable*') || Request::is('*homework*') ? 'active' : '' }}">
             <a href="#" class="nav-link" onclick="toggleSubmenu(this); return false;">
-                <i class="bi bi-calendar3"></i><span>Timetable & Schedule</span><i class="bi bi-chevron-down"></i>
+                <i class="bi bi-journal-bookmark-fill"></i><span>Academics & Teaching</span><i class="bi bi-chevron-down"></i>
             </a>
             <ul class="nav-submenu">
                 <li><a href="{{ route('academic.timetable.view') }}" class="nav-link"><i class="bi bi-dot"></i>Class Timetable</a></li>
-                <li><a href="{{ route('academic.timetable.add') }}" class="nav-link"><i class="bi bi-dot"></i>Add Period Slot</a></li>
+                <li><a href="{{ route('homework.view') }}" class="nav-link"><i class="bi bi-dot"></i>Daily Homework</a></li>
+                <li><a href="{{ route('homework.add') }}" class="nav-link"><i class="bi bi-dot"></i>Assign Homework</a></li>
             </ul>
         </li>
 
@@ -108,11 +111,13 @@
             </ul>
         </li>
 
-        <li class="nav-item {{ Request::is('*mark*') ? 'active' : '' }}">
+        <li class="nav-item {{ Request::is('*mark*') || Request::is('*exam*') ? 'active' : '' }}">
             <a href="#" class="nav-link" onclick="toggleSubmenu(this); return false;">
-                <i class="bi bi-award-fill"></i><span>Exams & Marks</span><i class="bi bi-chevron-down"></i>
+                <i class="bi bi-award-fill"></i><span>Exams & Datesheet</span><i class="bi bi-chevron-down"></i>
             </a>
             <ul class="nav-submenu">
+                <li><a href="{{ route('exam.schedule.view') }}" class="nav-link"><i class="bi bi-dot"></i>Exam Datesheet</a></li>
+                <li><a href="{{ route('exam.admitcard.view') }}" class="nav-link"><i class="bi bi-dot"></i>Admit Cards (CBSE)</a></li>
                 <li><a href="{{ route('marks.entry.add') }}" class="nav-link"><i class="bi bi-dot"></i>Marks Entry</a></li>
                 <li><a href="{{ route('marks.entry.edit') }}" class="nav-link"><i class="bi bi-dot"></i>Marks Edit</a></li>
                 <li><a href="{{ route('marks.entry.grade') }}" class="nav-link"><i class="bi bi-dot"></i>Grading System (CBSE)</a></li>
@@ -131,6 +136,16 @@
         </li>
 
         <li class="nav-section">Operations & Logistics</li>
+
+        <li class="nav-item {{ Request::is('*frontoffice*') ? 'active' : '' }}">
+            <a href="#" class="nav-link" onclick="toggleSubmenu(this); return false;">
+                <i class="bi bi-person-badge-fill"></i><span>Front Office</span><i class="bi bi-chevron-down"></i>
+            </a>
+            <ul class="nav-submenu">
+                <li><a href="{{ route('visitor.view') }}" class="nav-link"><i class="bi bi-dot"></i>Visitor Register</a></li>
+                <li><a href="{{ route('visitor.add') }}" class="nav-link"><i class="bi bi-dot"></i>Issue Gate Pass</a></li>
+            </ul>
+        </li>
 
         <li class="nav-item {{ Request::is('*library*') ? 'active' : '' }}">
             <a href="#" class="nav-link" onclick="toggleSubmenu(this); return false;">
@@ -153,7 +168,51 @@
             </ul>
         </li>
 
-        <li class="nav-section">Reports & Analytics</li>
+        <li class="nav-item {{ Request::is('*inventory*') ? 'active' : '' }}">
+            <a href="#" class="nav-link" onclick="toggleSubmenu(this); return false;">
+                <i class="bi bi-box-seam-fill"></i><span>Store & Inventory</span><i class="bi bi-chevron-down"></i>
+            </a>
+            <ul class="nav-submenu">
+                <li><a href="{{ route('inventory.item.view') }}" class="nav-link"><i class="bi bi-dot"></i>Stock Items</a></li>
+                <li><a href="{{ route('inventory.item.add') }}" class="nav-link"><i class="bi bi-dot"></i>Add Inventory Item</a></li>
+                <li><a href="{{ route('inventory.issue.view') }}" class="nav-link"><i class="bi bi-dot"></i>Issue Handover Log</a></li>
+            </ul>
+        </li>
+
+        <li class="nav-item {{ Request::is('*hostel*') ? 'active' : '' }}">
+            <a href="#" class="nav-link" onclick="toggleSubmenu(this); return false;">
+                <i class="bi bi-house-door-fill"></i><span>Hostel & Boarding</span><i class="bi bi-chevron-down"></i>
+            </a>
+            <ul class="nav-submenu">
+                <li><a href="{{ route('hostel.room.view') }}" class="nav-link"><i class="bi bi-dot"></i>Rooms Matrix</a></li>
+                <li><a href="{{ route('hostel.allotment.view') }}" class="nav-link"><i class="bi bi-dot"></i>Bed Allotments</a></li>
+            </ul>
+        </li>
+
+        <li class="nav-item {{ Request::is('*notice*') ? 'active' : '' }}">
+            <a href="#" class="nav-link" onclick="toggleSubmenu(this); return false;">
+                <i class="bi bi-megaphone-fill"></i><span>Notice Board</span><i class="bi bi-chevron-down"></i>
+            </a>
+            <ul class="nav-submenu">
+                <li><a href="{{ route('notice.view') }}" class="nav-link"><i class="bi bi-dot"></i>Circulars & Alerts</a></li>
+                <li><a href="{{ route('notice.add') }}" class="nav-link"><i class="bi bi-dot"></i>Publish Notice</a></li>
+            </ul>
+        </li>
+
+        <li class="nav-section">Portals & Stakeholders</li>
+
+        <li class="nav-item {{ Request::is('*portal*') ? 'active' : '' }}">
+            <a href="#" class="nav-link" onclick="toggleSubmenu(this); return false;">
+                <i class="bi bi-person-workspace"></i><span>Dedicated Portals</span><i class="bi bi-chevron-down"></i>
+            </a>
+            <ul class="nav-submenu">
+                <li><a href="{{ route('portal.parent.dashboard') }}" class="nav-link"><i class="bi bi-dot"></i>Parent Portal</a></li>
+                <li><a href="{{ route('portal.student.dashboard') }}" class="nav-link"><i class="bi bi-dot"></i>Student Portal</a></li>
+                <li><a href="{{ route('portal.teacher.dashboard') }}" class="nav-link"><i class="bi bi-dot"></i>Teacher Portal</a></li>
+            </ul>
+        </li>
+
+        <li class="nav-section">Reports & Compliance</li>
 
         <li class="nav-item {{ Request::is('*report*') ? 'active' : '' }}">
             <a href="#" class="nav-link" onclick="toggleSubmenu(this); return false;">
@@ -166,6 +225,12 @@
                 <li><a href="{{ route('student.result.view') }}" class="nav-link"><i class="bi bi-dot"></i>Student Result Records</a></li>
                 <li><a href="{{ route('student.idcard.view') }}" class="nav-link"><i class="bi bi-dot"></i>Student ID Card Generator</a></li>
             </ul>
+        </li>
+
+        <li class="nav-item {{ Request::is('*system*') ? 'active' : '' }}">
+            <a href="{{ route('system.activity.log') }}" class="nav-link">
+                <i class="bi bi-shield-check"></i><span>System Audit Logs</span>
+            </a>
         </li>
     </ul>
 

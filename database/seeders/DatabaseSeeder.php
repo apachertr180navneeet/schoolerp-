@@ -37,6 +37,19 @@ use App\Models\BookIssue;
 use App\Models\TransportVehicle;
 use App\Models\TransportRoute;
 use App\Models\StudentTransport;
+use App\Models\Homework;
+use App\Models\HomeworkSubmission;
+use App\Models\Notice;
+use App\Models\Visitor;
+use App\Models\InventoryCategory;
+use App\Models\InventoryItem;
+use App\Models\InventoryIssue;
+use App\Models\ExamSchedule;
+use App\Models\HostelRoom;
+use App\Models\StudentHostel;
+use App\Models\StudentMedical;
+use App\Models\StudentLeave;
+use App\Models\ActivityLog;
 
 class DatabaseSeeder extends Seeder
 {
@@ -819,5 +832,325 @@ class DatabaseSeeder extends Seeder
                 ]
             );
         }
+
+        // -------------------------------------------------------------
+        // 17. HOMEWORK & SUBMISSIONS
+        // -------------------------------------------------------------
+        $firstClass = reset($classes);
+        $firstSubject = reset($subjects);
+        $hw1 = Homework::updateOrCreate(
+            ['title' => 'Linear Equations Exercise 4.2 Solutions'],
+            [
+                'class_id' => $firstClass->id,
+                'subject_id' => $firstSubject->id,
+                'teacher_id' => $admin->id,
+                'description' => 'Complete questions 1 through 10 in your math homework notebook showing all working steps.',
+                'assigned_date' => now()->toDateString(),
+                'due_date' => now()->addDays(2)->toDateString(),
+                'homework_date' => now()->toDateString(),
+                'submission_date' => now()->addDays(2)->toDateString(),
+                'max_marks' => 20,
+            ]
+        );
+
+        $hw2 = Homework::updateOrCreate(
+            ['title' => 'Chemical Reactions Lab Observations'],
+            [
+                'class_id' => $firstClass->id,
+                'subject_id' => $firstSubject->id,
+                'teacher_id' => $admin->id,
+                'description' => 'Draw diagrams and state the law of conservation of mass from the acid-base experiment.',
+                'assigned_date' => now()->toDateString(),
+                'due_date' => now()->addDays(3)->toDateString(),
+                'homework_date' => now()->toDateString(),
+                'submission_date' => now()->addDays(3)->toDateString(),
+                'max_marks' => 15,
+            ]
+        );
+
+        if (!empty($studentsAssigned)) {
+            $sampleStudent = $studentsAssigned[0]['user'];
+            HomeworkSubmission::updateOrCreate(
+                ['homework_id' => $hw1->id, 'student_id' => $sampleStudent->id],
+                [
+                    'submitted_at' => now(),
+                    'status' => 'Graded',
+                    'marks_obtained' => 18,
+                    'remarks' => 'Well attempted! Neat diagrams.',
+                ]
+            );
+        }
+
+        // -------------------------------------------------------------
+        // 18. NOTICES & CIRCULARS
+        // -------------------------------------------------------------
+        Notice::updateOrCreate(
+            ['title' => 'CBSE Board Examination Pre-Board Schedule 2026'],
+            [
+                'notice_type' => 'Circular',
+                'target_audience' => 'All',
+                'publish_date' => now()->toDateString(),
+                'expiry_date' => now()->addDays(30)->toDateString(),
+                'message' => 'The pre-board examination for classes 9 and 10 will commence on 15th November 2026. Detailed datesheets have been uploaded.',
+                'is_active' => 1,
+                'created_by' => $admin->id,
+            ]
+        );
+
+        Notice::updateOrCreate(
+            ['title' => 'Annual Sports Meet & Inter-House Relay Carnival'],
+            [
+                'notice_type' => 'Event',
+                'target_audience' => 'Students',
+                'publish_date' => now()->toDateString(),
+                'expiry_date' => now()->addDays(20)->toDateString(),
+                'message' => 'Selections for the Annual Sports meet track and field events will take place this Thursday during zero period.',
+                'is_active' => 1,
+                'created_by' => $admin->id,
+            ]
+        );
+
+        Notice::updateOrCreate(
+            ['title' => 'Winter Vacation & Holiday Announcement'],
+            [
+                'notice_type' => 'Holiday',
+                'target_audience' => 'All',
+                'publish_date' => now()->toDateString(),
+                'expiry_date' => now()->addDays(60)->toDateString(),
+                'message' => 'The school will observe winter recess starting 25th December 2026 through 5th January 2027.',
+                'is_active' => 1,
+                'created_by' => $admin->id,
+            ]
+        );
+
+        // -------------------------------------------------------------
+        // 19. FRONT OFFICE VISITORS
+        // -------------------------------------------------------------
+        Visitor::updateOrCreate(
+            ['pass_number' => 'GP-2026-1001'],
+            [
+                'name' => 'Vikram Singhania',
+                'phone' => '9811223344',
+                'purpose' => 'New Admission Enquiry for Class 6',
+                'person_to_meet' => 'Principal Office',
+                'id_proof_type' => 'Aadhaar Card',
+                'id_proof_number' => '9988-7766-5544',
+                'check_in' => now()->subHours(2),
+                'check_out' => now()->subMinutes(30),
+                'number_of_persons' => 2,
+            ]
+        );
+
+        Visitor::updateOrCreate(
+            ['pass_number' => 'GP-2026-1002'],
+            [
+                'name' => 'Dr. Rajesh Khanna',
+                'phone' => '9822334455',
+                'purpose' => 'CBSE Affiliation Inspector Visit',
+                'person_to_meet' => 'Director Administration',
+                'id_proof_type' => 'Driving License',
+                'id_proof_number' => 'DL-04-2015-00129',
+                'check_in' => now()->subMinutes(45),
+                'number_of_persons' => 1,
+            ]
+        );
+
+        // -------------------------------------------------------------
+        // 20. INVENTORY CATEGORIES, ITEMS & ISSUES
+        // -------------------------------------------------------------
+        $catStationery = InventoryCategory::updateOrCreate(['name' => 'Stationery & Paper']);
+        $catLab = InventoryCategory::updateOrCreate(['name' => 'Science & Computer Lab']);
+        $catSports = InventoryCategory::updateOrCreate(['name' => 'Sports Equipment']);
+
+        $item1 = InventoryItem::updateOrCreate(
+            ['item_code' => 'INV-STAT-01'],
+            [
+                'category_id' => $catStationery->id,
+                'item_name' => 'A4 Copier Paper Rim 75 GSM (JK Copier)',
+                'unit' => 'Rim',
+                'quantity' => 150,
+                'min_quantity_alert' => 20,
+                'unit_price' => 280,
+                'description' => 'Standard white photocopy and exam paper sheets',
+            ]
+        );
+
+        $item2 = InventoryItem::updateOrCreate(
+            ['item_code' => 'INV-LAB-02'],
+            [
+                'category_id' => $catLab->id,
+                'item_name' => 'HDMI High Speed Cable 5M',
+                'unit' => 'Pcs',
+                'quantity' => 25,
+                'min_quantity_alert' => 5,
+                'unit_price' => 450,
+                'description' => 'For smart classrooms and auditorium projection',
+            ]
+        );
+
+        $item3 = InventoryItem::updateOrCreate(
+            ['item_code' => 'INV-SPRT-03'],
+            [
+                'category_id' => $catSports->id,
+                'item_name' => 'Cosco Synthetic Basketball Size 7',
+                'unit' => 'Pcs',
+                'quantity' => 18,
+                'min_quantity_alert' => 4,
+                'unit_price' => 950,
+                'description' => 'Standard match regulation basketballs',
+            ]
+        );
+
+        InventoryIssue::updateOrCreate(
+            ['item_id' => $item1->id, 'user_id' => $admin->id],
+            [
+                'quantity_issued' => 10,
+                'issue_date' => now()->toDateString(),
+                'status' => 'Issued',
+                'remarks' => 'Issued for midterm exam question paper printing',
+            ]
+        );
+
+        // -------------------------------------------------------------
+        // 21. EXAM SCHEDULES / DATESHEET
+        // -------------------------------------------------------------
+        $firstExamType = reset($examTypes);
+        ExamSchedule::updateOrCreate(
+            [
+                'exam_type_id' => $firstExamType->id,
+                'class_id' => $firstClass->id,
+                'subject_id' => $firstSubject->id,
+            ],
+            [
+                'exam_date' => now()->addDays(7)->toDateString(),
+                'start_time' => '09:00',
+                'end_time' => '12:00',
+                'room_no' => 'Exam Hall 101',
+                'max_marks' => 80,
+                'pass_marks' => 27,
+            ]
+        );
+
+        // -------------------------------------------------------------
+        // 22. HOSTEL ROOMS & ALLOTMENTS
+        // -------------------------------------------------------------
+        $room1 = HostelRoom::updateOrCreate(
+            ['room_no' => 'H1-101'],
+            [
+                'hostel_name' => 'Boys Hostel - Raman Wing',
+                'room_type' => 'Standard AC (3-Seater)',
+                'capacity' => 3,
+                'cost_per_bed' => 3500,
+                'description' => 'Equipped with study desk, wardrobe and attached bath.',
+            ]
+        );
+
+        $room2 = HostelRoom::updateOrCreate(
+            ['room_no' => 'H2-201'],
+            [
+                'hostel_name' => 'Girls Hostel - Sarojini Wing',
+                'room_type' => 'Standard AC (2-Seater)',
+                'capacity' => 2,
+                'cost_per_bed' => 4200,
+                'description' => '2-seater air conditioned room with balcony.',
+            ]
+        );
+
+        if (!empty($studentsAssigned)) {
+            StudentHostel::updateOrCreate(
+                ['student_id' => $studentsAssigned[0]['user']->id],
+                [
+                    'room_id' => $room1->id,
+                    'allotment_date' => now()->subMonths(2)->toDateString(),
+                    'status' => 'Occupied',
+                    'remarks' => 'Allotted Bed 1 near window.',
+                ]
+            );
+        }
+
+        // -------------------------------------------------------------
+        // 23. STUDENT MEDICAL HEALTH RECORDS
+        // -------------------------------------------------------------
+        $bloodGroups = ['O+', 'B+', 'A+', 'AB+'];
+        foreach (array_slice($studentsAssigned, 0, 5) as $idx => $st) {
+            StudentMedical::updateOrCreate(
+                ['student_id' => $st['user']->id],
+                [
+                    'blood_group' => $bloodGroups[$idx % count($bloodGroups)],
+                    'height_cm' => 140 + ($idx * 3.5),
+                    'weight_kg' => 38 + ($idx * 2.5),
+                    'known_allergies' => ($idx == 0) ? 'Peanut Allergy' : 'None reported',
+                    'emergency_contact_name' => $st['user']->fname ?? 'Guardian',
+                    'emergency_contact_phone' => $st['user']->mobile ?? '9876543210',
+                    'medical_conditions' => ($idx == 1) ? 'Mild Asthmatic, carries inhaler' : 'Normal',
+                    'last_checkup_date' => now()->subMonth()->toDateString(),
+                ]
+            );
+        }
+
+        // -------------------------------------------------------------
+        // 24. STUDENT LEAVES
+        // -------------------------------------------------------------
+        if (count($studentsAssigned) >= 2) {
+            StudentLeave::updateOrCreate(
+                ['student_id' => $studentsAssigned[1]['user']->id],
+                [
+                    'class_id' => $firstClass->id,
+                    'start_date' => now()->toDateString(),
+                    'end_date' => now()->addDays(2)->toDateString(),
+                    'reason' => 'Viral fever and doctor prescribed rest',
+                    'status' => 'Pending',
+                ]
+            );
+
+            StudentLeave::updateOrCreate(
+                ['student_id' => $studentsAssigned[0]['user']->id],
+                [
+                    'class_id' => $firstClass->id,
+                    'start_date' => now()->subDays(5)->toDateString(),
+                    'end_date' => now()->subDays(3)->toDateString(),
+                    'reason' => 'Sister wedding ceremony out of town',
+                    'status' => 'Approved',
+                    'approved_by' => $admin->id,
+                    'remarks' => 'Leave approved by Class Teacher',
+                ]
+            );
+        }
+
+        // -------------------------------------------------------------
+        // 25. SYSTEM AUDIT ACTIVITY LOGS
+        // -------------------------------------------------------------
+        ActivityLog::updateOrCreate(
+            ['description' => 'System administrator logged in from office network'],
+            [
+                'user_id' => $admin->id,
+                'user_name' => $admin->name,
+                'action_type' => 'LOGIN',
+                'module' => 'Authentication',
+                'ip_address' => '127.0.0.1',
+            ]
+        );
+
+        ActivityLog::updateOrCreate(
+            ['description' => 'Generated CBSE Marks Grade thresholds matrix'],
+            [
+                'user_id' => $admin->id,
+                'user_name' => $admin->name,
+                'action_type' => 'CREATE',
+                'module' => 'Examinations',
+                'ip_address' => '127.0.0.1',
+            ]
+        );
+
+        ActivityLog::updateOrCreate(
+            ['description' => 'Dispatched monthly fee invoices for Session 2026'],
+            [
+                'user_id' => $admin->id,
+                'user_name' => $admin->name,
+                'action_type' => 'CREATE',
+                'module' => 'Accounts',
+                'ip_address' => '127.0.0.1',
+            ]
+        );
     }
 }

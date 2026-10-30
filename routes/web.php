@@ -48,6 +48,16 @@ use App\Http\Controllers\Backend\Academic\TimetableController;
 use App\Http\Controllers\Backend\Student\CertificateController;
 use App\Http\Controllers\Backend\Library\LibraryController;
 use App\Http\Controllers\Backend\Transport\TransportController;
+use App\Http\Controllers\Backend\Academic\HomeworkController;
+use App\Http\Controllers\Backend\Communication\NoticeController;
+use App\Http\Controllers\Backend\FrontOffice\VisitorController;
+use App\Http\Controllers\Backend\Inventory\InventoryController;
+use App\Http\Controllers\Backend\Exam\ExamScheduleController;
+use App\Http\Controllers\Backend\Hostel\HostelController;
+use App\Http\Controllers\Backend\Student\StudentMedicalController;
+use App\Http\Controllers\Backend\Student\StudentLeaveController;
+use App\Http\Controllers\Backend\System\ActivityLogController;
+use App\Http\Controllers\Backend\Portal\PortalController;
 
 
 /*
@@ -574,6 +584,98 @@ Route::prefix('transport')->group(function(){
     Route::get('/student/add', [TransportController::class, 'StudentTransportAdd'])->name('transport.student.add');
     Route::post('/student/store', [TransportController::class, 'StudentTransportStore'])->name('transport.student.store');
     Route::get('/student/delete/{id}', [TransportController::class, 'StudentTransportDelete'])->name('transport.student.delete');
+});
+
+/// Homework & Assignment Routes
+Route::prefix('academic/homework')->group(function(){
+    Route::get('/view', [HomeworkController::class, 'HomeworkView'])->name('homework.view');
+    Route::get('/add', [HomeworkController::class, 'HomeworkAdd'])->name('homework.add');
+    Route::post('/store', [HomeworkController::class, 'HomeworkStore'])->name('homework.store');
+    Route::get('/submissions/{id}', [HomeworkController::class, 'HomeworkSubmissions'])->name('homework.submissions');
+    Route::post('/grade/{id}', [HomeworkController::class, 'HomeworkGradeStore'])->name('homework.grade.store');
+    Route::get('/delete/{id}', [HomeworkController::class, 'HomeworkDelete'])->name('homework.delete');
+});
+
+/// Notice & Circular Routes
+Route::prefix('communication/notice')->group(function(){
+    Route::get('/view', [NoticeController::class, 'NoticeView'])->name('notice.view');
+    Route::get('/add', [NoticeController::class, 'NoticeAdd'])->name('notice.add');
+    Route::post('/store', [NoticeController::class, 'NoticeStore'])->name('notice.store');
+    Route::get('/delete/{id}', [NoticeController::class, 'NoticeDelete'])->name('notice.delete');
+});
+
+/// Front Office & Visitor Routes
+Route::prefix('frontoffice/visitor')->group(function(){
+    Route::get('/view', [VisitorController::class, 'VisitorView'])->name('visitor.view');
+    Route::get('/add', [VisitorController::class, 'VisitorAdd'])->name('visitor.add');
+    Route::post('/store', [VisitorController::class, 'VisitorStore'])->name('visitor.store');
+    Route::get('/checkout/{id}', [VisitorController::class, 'VisitorCheckOut'])->name('visitor.checkout');
+    Route::get('/gatepass/{id}', [VisitorController::class, 'VisitorGatePass'])->name('visitor.gatepass');
+    Route::get('/delete/{id}', [VisitorController::class, 'VisitorDelete'])->name('visitor.delete');
+});
+
+/// Inventory & Asset Store Routes
+Route::prefix('inventory')->group(function(){
+    Route::get('/item/view', [InventoryController::class, 'ItemView'])->name('inventory.item.view');
+    Route::get('/item/add', [InventoryController::class, 'ItemAdd'])->name('inventory.item.add');
+    Route::post('/item/store', [InventoryController::class, 'ItemStore'])->name('inventory.item.store');
+    Route::get('/item/delete/{id}', [InventoryController::class, 'ItemDelete'])->name('inventory.item.delete');
+
+    Route::get('/issue/view', [InventoryController::class, 'IssueView'])->name('inventory.issue.view');
+    Route::get('/issue/add', [InventoryController::class, 'IssueAdd'])->name('inventory.issue.add');
+    Route::post('/issue/store', [InventoryController::class, 'IssueStore'])->name('inventory.issue.store');
+    Route::get('/issue/return/{id}', [InventoryController::class, 'IssueReturn'])->name('inventory.issue.return');
+});
+
+/// Examination Datesheet & Admit Card Routes
+Route::prefix('exam/schedule')->group(function(){
+    Route::get('/view', [ExamScheduleController::class, 'DatesheetView'])->name('exam.schedule.view');
+    Route::get('/add', [ExamScheduleController::class, 'DatesheetAdd'])->name('exam.schedule.add');
+    Route::post('/store', [ExamScheduleController::class, 'DatesheetStore'])->name('exam.schedule.store');
+    Route::get('/delete/{id}', [ExamScheduleController::class, 'DatesheetDelete'])->name('exam.schedule.delete');
+
+    Route::get('/admitcard/view', [ExamScheduleController::class, 'AdmitCardView'])->name('exam.admitcard.view');
+    Route::get('/admitcard/pdf', [ExamScheduleController::class, 'AdmitCardPdf'])->name('exam.admitcard.pdf');
+});
+
+/// Hostel & Boarding Routes
+Route::prefix('hostel')->group(function(){
+    Route::get('/room/view', [HostelController::class, 'RoomView'])->name('hostel.room.view');
+    Route::get('/room/add', [HostelController::class, 'RoomAdd'])->name('hostel.room.add');
+    Route::post('/room/store', [HostelController::class, 'RoomStore'])->name('hostel.room.store');
+
+    Route::get('/allotment/view', [HostelController::class, 'AllotmentView'])->name('hostel.allotment.view');
+    Route::get('/allotment/add', [HostelController::class, 'AllotmentAdd'])->name('hostel.allotment.add');
+    Route::post('/allotment/store', [HostelController::class, 'AllotmentStore'])->name('hostel.allotment.store');
+    Route::get('/allotment/vacate/{id}', [HostelController::class, 'AllotmentVacate'])->name('hostel.allotment.vacate');
+});
+
+/// Student Health & Medical Records Routes
+Route::prefix('students/medical')->group(function(){
+    Route::get('/view', [StudentMedicalController::class, 'MedicalView'])->name('student.medical.view');
+    Route::get('/edit/{student_id}', [StudentMedicalController::class, 'MedicalEdit'])->name('student.medical.edit');
+    Route::post('/update/{student_id}', [StudentMedicalController::class, 'MedicalUpdate'])->name('student.medical.update');
+});
+
+/// Student Leave Routes
+Route::prefix('students/leave')->group(function(){
+    Route::get('/view', [StudentLeaveController::class, 'LeaveView'])->name('student.leave.view');
+    Route::get('/add', [StudentLeaveController::class, 'LeaveAdd'])->name('student.leave.add');
+    Route::post('/store', [StudentLeaveController::class, 'LeaveStore'])->name('student.leave.store');
+    Route::get('/approve/{id}', [StudentLeaveController::class, 'LeaveApprove'])->name('student.leave.approve');
+    Route::get('/reject/{id}', [StudentLeaveController::class, 'LeaveReject'])->name('student.leave.reject');
+});
+
+/// System Audit & Activity Logs Routes
+Route::prefix('system')->group(function(){
+    Route::get('/activity/log', [ActivityLogController::class, 'LogView'])->name('system.activity.log');
+});
+
+/// Portals (Parent, Student, Teacher) Routes
+Route::prefix('portal')->group(function(){
+    Route::get('/parent', [PortalController::class, 'ParentDashboard'])->name('portal.parent.dashboard');
+    Route::get('/student', [PortalController::class, 'StudentDashboard'])->name('portal.student.dashboard');
+    Route::get('/teacher', [PortalController::class, 'TeacherDashboard'])->name('portal.teacher.dashboard');
 });
 
 
