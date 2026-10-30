@@ -35,6 +35,10 @@ class AssignStudent extends Model
     	return $this->belongsTo(StudentShift::class,'shift_id','id');
     }
 
+    public function section(){
+    	return $this->belongsTo(StudentSection::class,'section_id','id');
+    }
+
 
     
 

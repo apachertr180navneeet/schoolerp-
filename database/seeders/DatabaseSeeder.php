@@ -27,6 +27,16 @@ use App\Models\MarksGrade;
 use App\Models\AccountStudentFee;
 use App\Models\AccountEmployeeSalary;
 use App\Models\AccountOtherCost;
+use App\Models\SchoolSetting;
+use App\Models\StudentSection;
+use App\Models\StudentAttendance;
+use App\Models\AdmissionEnquiry;
+use App\Models\Timetable;
+use App\Models\Book;
+use App\Models\BookIssue;
+use App\Models\TransportVehicle;
+use App\Models\TransportRoute;
+use App\Models\StudentTransport;
 
 class DatabaseSeeder extends Seeder
 {
@@ -506,6 +516,308 @@ class DatabaseSeeder extends Seeder
 
         foreach ($costs as $c) {
             AccountOtherCost::updateOrCreate(['date' => $c['date'], 'description' => $c['description']], $c);
+        }
+
+        // -------------------------------------------------------------
+        // 9. SCHOOL PROFILE MASTER SETUP
+        // -------------------------------------------------------------
+        SchoolSetting::updateOrCreate(
+            ['id' => 1],
+            [
+                'school_name' => 'Shiksha Mitra Public School',
+                'school_code' => 'SMPS-1029',
+                'affiliation_no' => 'CBSE/AFF/2026/8942',
+                'board' => 'CBSE',
+                'phone' => '+91 98765 43210',
+                'email' => 'principal@shikshamitra.edu.in',
+                'address' => 'Campus 1, Vidya Marg, Knowledge Park III, Education City - 201306',
+                'principal_name' => 'Dr. Rajesh Sharma',
+                'academic_session' => '2026-2027',
+            ]
+        );
+
+        // -------------------------------------------------------------
+        // 10. STUDENT SECTIONS MASTER
+        // -------------------------------------------------------------
+        $sections = [];
+        foreach (['A', 'B', 'C', 'D'] as $secName) {
+            $sections[$secName] = StudentSection::updateOrCreate(
+                ['name' => $secName],
+                ['capacity' => 40]
+            );
+        }
+
+        // -------------------------------------------------------------
+        // 11. STUDENT DAILY ATTENDANCE (Past 5 weekdays)
+        // -------------------------------------------------------------
+        $attendanceDates = ['2026-10-26', '2026-10-27', '2026-10-28', '2026-10-29', '2026-10-30'];
+        foreach ($attendanceDates as $attDate) {
+            foreach ($studentsAssigned as $st) {
+                // Determine realistic status
+                $rand = rand(1, 10);
+                $status = ($rand == 10) ? 'Leave' : (($rand >= 8) ? 'Absent' : 'Present');
+
+                StudentAttendance::updateOrCreate(
+                    [
+                        'date' => $attDate,
+                        'student_id' => $st['user']->id,
+                        'class_id' => $st['class']->id,
+                    ],
+                    [
+                        'year_id' => $currentYear->id,
+                        'section_id' => $sections['A']->id,
+                        'attend_status' => $status,
+                    ]
+                );
+            }
+        }
+
+        // -------------------------------------------------------------
+        // 12. ADMISSION ENQUIRIES & PIPELINE CRM
+        // -------------------------------------------------------------
+        $enquiries = [
+            [
+                'enquiry_no' => 'ENQ-2026-1001',
+                'student_name' => 'Ananya Deshmukh',
+                'parent_name' => 'Sanjay Deshmukh',
+                'mobile' => '9823456781',
+                'email' => 'sanjay.deshmukh@gmail.com',
+                'class_id' => $classes['Class 1']->id,
+                'enquiry_date' => '2026-10-20',
+                'source' => 'Walk-in',
+                'status' => 'Admitted',
+                'notes' => 'Admission formalities completed, registration fee submitted.',
+            ],
+            [
+                'enquiry_no' => 'ENQ-2026-1002',
+                'student_name' => 'Devansh Mathur',
+                'parent_name' => 'Vikram Mathur',
+                'mobile' => '9871122334',
+                'email' => 'vikram.m@outlook.com',
+                'class_id' => $classes['Class 9']->id,
+                'enquiry_date' => '2026-10-22',
+                'source' => 'Website Online Form',
+                'status' => 'Assessment Scheduled',
+                'notes' => 'Maths & Science written assessment scheduled for Saturday 10:00 AM.',
+            ],
+            [
+                'enquiry_no' => 'ENQ-2026-1003',
+                'student_name' => 'Rhea Choudhury',
+                'parent_name' => 'Amitabh Choudhury',
+                'mobile' => '9810987654',
+                'email' => 'amitabh.c@yahoo.com',
+                'class_id' => $classes['Class 5']->id,
+                'enquiry_date' => '2026-10-25',
+                'source' => 'Referral',
+                'status' => 'Contacted',
+                'notes' => 'Parent inquired about school bus routes and extra-curricular clubs.',
+            ],
+            [
+                'enquiry_no' => 'ENQ-2026-1004',
+                'student_name' => 'Kabir Sengupta',
+                'parent_name' => 'Prabir Sengupta',
+                'mobile' => '9822334455',
+                'email' => 'prabir.sen@gmail.com',
+                'class_id' => $classes['Class 6']->id,
+                'enquiry_date' => '2026-10-28',
+                'source' => 'Social Media Campaign',
+                'status' => 'New',
+                'notes' => 'Inquiry received via Facebook lead campaign; requested brochure.',
+            ],
+            [
+                'enquiry_no' => 'ENQ-2026-1005',
+                'student_name' => 'Meera Nair',
+                'parent_name' => 'Gopalan Nair',
+                'mobile' => '9833445566',
+                'email' => 'gopalan.nair@corp.com',
+                'class_id' => $classes['Class 10']->id,
+                'enquiry_date' => '2026-10-29',
+                'source' => 'Walk-in',
+                'status' => 'Contacted',
+                'notes' => 'Parent transfer from Bangalore; board marks verification pending.',
+            ],
+            [
+                'enquiry_no' => 'ENQ-2026-1006',
+                'student_name' => 'Aarav Singhania',
+                'parent_name' => 'Deepak Singhania',
+                'mobile' => '9844556677',
+                'email' => 'deepak.s@gmail.com',
+                'class_id' => $classes['Class 2']->id,
+                'enquiry_date' => '2026-10-30',
+                'source' => 'Newspaper Ad',
+                'status' => 'New',
+                'notes' => 'Called reception regarding fee concessions for siblings.',
+            ],
+        ];
+
+        foreach ($enquiries as $enq) {
+            AdmissionEnquiry::updateOrCreate(['enquiry_no' => $enq['enquiry_no']], $enq);
+        }
+
+        // -------------------------------------------------------------
+        // 13. ACADEMIC TIMETABLE
+        // -------------------------------------------------------------
+        $timetableSchedule = [
+            ['day' => 'Monday', 'start' => '08:30:00', 'end' => '09:15:00', 'sub' => 'Mathematics', 'room' => 'Room 201'],
+            ['day' => 'Monday', 'start' => '09:15:00', 'end' => '10:00:00', 'sub' => 'Physics',     'room' => 'Physics Lab'],
+            ['day' => 'Monday', 'start' => '10:15:00', 'end' => '11:00:00', 'sub' => 'Chemistry',   'room' => 'Chemistry Lab'],
+            ['day' => 'Monday', 'start' => '11:00:00', 'end' => '11:45:00', 'sub' => 'English',     'room' => 'Room 201'],
+            ['day' => 'Tuesday', 'start' => '08:30:00', 'end' => '09:15:00', 'sub' => 'Biology',    'room' => 'Biology Lab'],
+            ['day' => 'Tuesday', 'start' => '09:15:00', 'end' => '10:00:00', 'sub' => 'Mathematics','room' => 'Room 201'],
+            ['day' => 'Tuesday', 'start' => '10:15:00', 'end' => '11:00:00', 'sub' => 'History',    'room' => 'Room 201'],
+            ['day' => 'Wednesday', 'start' => '08:30:00', 'end' => '09:15:00', 'sub' => 'Computer Science', 'room' => 'Computer Lab 1'],
+            ['day' => 'Wednesday', 'start' => '09:15:00', 'end' => '10:00:00', 'sub' => 'Physics',   'room' => 'Room 201'],
+            ['day' => 'Thursday', 'start' => '08:30:00', 'end' => '09:15:00', 'sub' => 'Hindi',      'room' => 'Room 201'],
+            ['day' => 'Thursday', 'start' => '09:15:00', 'end' => '10:00:00', 'sub' => 'Mathematics','room' => 'Room 201'],
+            ['day' => 'Friday', 'start' => '08:30:00', 'end' => '09:15:00', 'sub' => 'Geography',   'room' => 'Room 201'],
+            ['day' => 'Friday', 'start' => '09:15:00', 'end' => '10:00:00', 'sub' => 'General Science', 'room' => 'Room 201'],
+        ];
+
+        $teacherUser = $employees[0] ?? $admin;
+
+        foreach ($timetableSchedule as $i => $slot) {
+            $subj = $subjects[$slot['sub']] ?? $subjects['Mathematics'];
+            Timetable::updateOrCreate(
+                [
+                    'class_id' => $classes['Class 10']->id,
+                    'day' => $slot['day'],
+                    'period_no' => $i + 1,
+                ],
+                [
+                    'section_id' => $sections['A']->id,
+                    'subject_id' => $subj->id,
+                    'teacher_id' => $teacherUser->id,
+                    'start_time' => $slot['start'],
+                    'end_time' => $slot['end'],
+                    'room_no' => $slot['room'],
+                ]
+            );
+        }
+
+        // -------------------------------------------------------------
+        // 14. LIBRARY CATALOG & BOOK CIRCULATION
+        // -------------------------------------------------------------
+        $booksList = [
+            ['title' => 'Concepts of Physics (Vol 1 & 2)', 'author' => 'Dr. H.C. Verma', 'isbn' => '978-8177091878', 'category' => 'Science', 'rack_no' => 'Shelf S-01', 'qty' => 12],
+            ['title' => 'Mathematics for Class 10 (RD Sharma)', 'author' => 'Dr. R.D. Sharma', 'isbn' => '978-9390234110', 'category' => 'Mathematics', 'rack_no' => 'Shelf M-02', 'qty' => 15],
+            ['title' => 'NCERT Exemplar Problems - Science', 'author' => 'NCERT Council', 'isbn' => '978-8174507921', 'category' => 'Science', 'rack_no' => 'Shelf S-03', 'qty' => 20],
+            ['title' => 'Oxford Student Atlas for India', 'author' => 'Oxford University Press', 'isbn' => '978-0190128913', 'category' => 'Social Studies', 'rack_no' => 'Shelf G-01', 'qty' => 10],
+            ['title' => 'The Discovery of India', 'author' => 'Jawaharlal Nehru', 'isbn' => '978-0143031031', 'category' => 'General Reference', 'rack_no' => 'Shelf H-04', 'qty' => 6],
+            ['title' => 'Python Programming for Beginners', 'author' => 'Sumita Arora', 'isbn' => '978-8177002012', 'category' => 'Computer Science', 'rack_no' => 'Shelf C-02', 'qty' => 8],
+            ['title' => 'High School English Grammar & Composition', 'author' => 'Wren & Martin', 'isbn' => '978-9352530144', 'category' => 'Languages', 'rack_no' => 'Shelf L-01', 'qty' => 18],
+        ];
+
+        $createdBooks = [];
+        foreach ($booksList as $idx => $b) {
+            $createdBooks[] = Book::updateOrCreate(
+                ['accession_no' => 'ACC-' . (1001 + $idx)],
+                [
+                    'isbn' => $b['isbn'],
+                    'title' => $b['title'],
+                    'author' => $b['author'],
+                    'publisher' => 'Academic Publishing',
+                    'category' => $b['category'],
+                    'rack_no' => $b['rack_no'],
+                    'total_copies' => $b['qty'],
+                    'available_copies' => $b['qty'] - 1, // 1 issued
+                    'price' => 350.00,
+                ]
+            );
+        }
+
+        // Active book issues
+        foreach (array_slice($studentsAssigned, 0, 3) as $k => $st) {
+            if (isset($createdBooks[$k])) {
+                BookIssue::updateOrCreate(
+                    [
+                        'book_id' => $createdBooks[$k]->id,
+                        'user_id' => $st['user']->id,
+                        'issue_date' => '2026-10-15',
+                    ],
+                    [
+                        'due_date' => '2026-10-29',
+                        'return_date' => ($k == 0) ? '2026-10-28' : null,
+                        'status' => ($k == 0) ? 'Returned' : 'Issued',
+                        'fine_amount' => ($k == 1) ? 20 : 0, // overdue fine
+                    ]
+                );
+            }
+        }
+
+        // -------------------------------------------------------------
+        // 15. TRANSPORT FLEET, ROUTES & STUDENT ALLOCATIONS
+        // -------------------------------------------------------------
+        $route1 = TransportRoute::updateOrCreate(
+            ['route_name' => 'Route 1 - Civil Lines & Metro Station'],
+            [
+                'start_point' => 'Civil Lines Chowk',
+                'end_point' => 'Main Campus Gate 1',
+                'fare' => 1400.00,
+            ]
+        );
+
+        $route2 = TransportRoute::updateOrCreate(
+            ['route_name' => 'Route 2 - Sector 15 & Knowledge Park'],
+            [
+                'start_point' => 'Sector 15 Market',
+                'end_point' => 'Main Campus Gate 2',
+                'fare' => 1200.00,
+            ]
+        );
+
+        $route3 = TransportRoute::updateOrCreate(
+            ['route_name' => 'Route 3 - Model Town & Shastri Nagar'],
+            [
+                'start_point' => 'Model Town Park',
+                'end_point' => 'Main Campus Gate 1',
+                'fare' => 1500.00,
+            ]
+        );
+
+        $bus1 = TransportVehicle::updateOrCreate(
+            ['vehicle_no' => 'DL-01-SM-1044'],
+            [
+                'vehicle_model' => 'Tata Starbus 42-Seater',
+                'driver_name' => 'Mohan Lal Sharma',
+                'driver_phone' => '9871100223',
+                'driver_license' => 'DL-COM-2018-9941',
+                'capacity' => 42,
+            ]
+        );
+
+        $bus2 = TransportVehicle::updateOrCreate(
+            ['vehicle_no' => 'DL-01-SM-2088'],
+            [
+                'vehicle_model' => 'Ashok Leyland Sunshine 38-Seater',
+                'driver_name' => 'Ramesh Chander',
+                'driver_phone' => '9810055442',
+                'driver_license' => 'DL-COM-2016-8812',
+                'capacity' => 38,
+            ]
+        );
+
+        $bus3 = TransportVehicle::updateOrCreate(
+            ['vehicle_no' => 'DL-01-SM-3012'],
+            [
+                'vehicle_model' => 'Force Traveller 24-Seater AC',
+                'driver_name' => 'Gurpreet Singh',
+                'driver_phone' => '9899112233',
+                'driver_license' => 'DL-COM-2020-4415',
+                'capacity' => 24,
+            ]
+        );
+
+        // Assign transport to students
+        foreach (array_slice($studentsAssigned, 0, 4) as $idx => $st) {
+            $assignedRoute = ($idx % 2 == 0) ? $route1 : $route2;
+            StudentTransport::updateOrCreate(
+                ['student_id' => $st['user']->id],
+                [
+                    'route_id' => $assignedRoute->id,
+                    'pickup_point' => ($idx % 2 == 0) ? 'Metro Station Gate 2' : 'Sector 15 Market',
+                    'monthly_fare' => $assignedRoute->fare,
+                ]
+            );
         }
     }
 }

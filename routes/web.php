@@ -40,6 +40,14 @@ use App\Http\Controllers\Backend\Report\ProfiteController;
 use App\Http\Controllers\Backend\Report\MarkSheetController;
 use App\Http\Controllers\Backend\Report\AttenReportController;
 use App\Http\Controllers\Backend\Report\ResultReportController;
+use App\Http\Controllers\Backend\Setup\SchoolSettingController;
+use App\Http\Controllers\Backend\Setup\StudentSectionController;
+use App\Http\Controllers\Backend\Student\StudentAttendanceController;
+use App\Http\Controllers\Backend\Admission\AdmissionEnquiryController;
+use App\Http\Controllers\Backend\Academic\TimetableController;
+use App\Http\Controllers\Backend\Student\CertificateController;
+use App\Http\Controllers\Backend\Library\LibraryController;
+use App\Http\Controllers\Backend\Transport\TransportController;
 
 
 /*
@@ -477,6 +485,96 @@ Route::get('student/idcard/view', [ResultReportController::class, 'IdcardView'])
 Route::get('student/idcard/get', [ResultReportController::class, 'IdcardGet'])->name('report.student.idcard.get');
 
 }); 
+
+
+/// School Profile & Master Settings Routes
+Route::prefix('school')->group(function(){
+    Route::get('/profile/view', [SchoolSettingController::class, 'SchoolProfileView'])->name('school.profile.view');
+    Route::post('/profile/update', [SchoolSettingController::class, 'SchoolProfileUpdate'])->name('school.profile.update');
+});
+
+/// Section Setup Routes
+Route::prefix('setups')->group(function(){
+    Route::get('/section/view', [StudentSectionController::class, 'ViewSection'])->name('student.section.view');
+    Route::get('/section/add', [StudentSectionController::class, 'AddSection'])->name('student.section.add');
+    Route::post('/section/store', [StudentSectionController::class, 'StoreSection'])->name('student.section.store');
+    Route::get('/section/edit/{id}', [StudentSectionController::class, 'EditSection'])->name('student.section.edit');
+    Route::post('/section/update/{id}', [StudentSectionController::class, 'UpdateSection'])->name('student.section.update');
+    Route::get('/section/delete/{id}', [StudentSectionController::class, 'DeleteSection'])->name('student.section.delete');
+});
+
+/// Student Attendance Routes
+Route::prefix('students/attendance')->group(function(){
+    Route::get('/view', [StudentAttendanceController::class, 'AttendanceView'])->name('student.attendance.view');
+    Route::get('/add', [StudentAttendanceController::class, 'AttendanceAdd'])->name('student.attendance.add');
+    Route::post('/store', [StudentAttendanceController::class, 'AttendanceStore'])->name('student.attendance.store');
+    Route::get('/edit/{date}/{class_id}', [StudentAttendanceController::class, 'AttendanceEdit'])->name('student.attendance.edit');
+    Route::get('/details/{date}/{class_id}', [StudentAttendanceController::class, 'AttendanceDetails'])->name('student.attendance.details');
+});
+
+/// Admission CRM & Enquiries Routes
+Route::prefix('admissions/enquiry')->group(function(){
+    Route::get('/view', [AdmissionEnquiryController::class, 'EnquiryView'])->name('admission.enquiry.view');
+    Route::get('/add', [AdmissionEnquiryController::class, 'EnquiryAdd'])->name('admission.enquiry.add');
+    Route::post('/store', [AdmissionEnquiryController::class, 'EnquiryStore'])->name('admission.enquiry.store');
+    Route::get('/edit/{id}', [AdmissionEnquiryController::class, 'EnquiryEdit'])->name('admission.enquiry.edit');
+    Route::post('/update/{id}', [AdmissionEnquiryController::class, 'EnquiryUpdate'])->name('admission.enquiry.update');
+    Route::post('/status/{id}', [AdmissionEnquiryController::class, 'EnquiryStatusUpdate'])->name('admission.enquiry.status');
+    Route::get('/delete/{id}', [AdmissionEnquiryController::class, 'EnquiryDelete'])->name('admission.enquiry.delete');
+});
+
+/// Academic Timetable Routes
+Route::prefix('academic/timetable')->group(function(){
+    Route::get('/view', [TimetableController::class, 'TimetableView'])->name('academic.timetable.view');
+    Route::get('/add', [TimetableController::class, 'TimetableAdd'])->name('academic.timetable.add');
+    Route::post('/store', [TimetableController::class, 'TimetableStore'])->name('academic.timetable.store');
+    Route::get('/delete/{id}', [TimetableController::class, 'TimetableDelete'])->name('academic.timetable.delete');
+});
+
+/// Student Certificate (TC & Bonafide) Routes
+Route::prefix('certificates')->group(function(){
+    Route::get('/tc/view', [CertificateController::class, 'TCView'])->name('certificate.tc.view');
+    Route::get('/tc/pdf/{student_id}', [CertificateController::class, 'TCPDF'])->name('certificate.tc.pdf');
+    Route::get('/bonafide/view', [CertificateController::class, 'BonafideView'])->name('certificate.bonafide.view');
+    Route::get('/bonafide/pdf/{student_id}', [CertificateController::class, 'BonafidePDF'])->name('certificate.bonafide.pdf');
+});
+
+/// Library Management Routes
+Route::prefix('library')->group(function(){
+    Route::get('/book/view', [LibraryController::class, 'BookView'])->name('library.book.view');
+    Route::get('/book/add', [LibraryController::class, 'BookAdd'])->name('library.book.add');
+    Route::post('/book/store', [LibraryController::class, 'BookStore'])->name('library.book.store');
+    Route::get('/book/edit/{id}', [LibraryController::class, 'BookEdit'])->name('library.book.edit');
+    Route::post('/book/update/{id}', [LibraryController::class, 'BookUpdate'])->name('library.book.update');
+    Route::get('/book/delete/{id}', [LibraryController::class, 'BookDelete'])->name('library.book.delete');
+
+    Route::get('/issue/view', [LibraryController::class, 'IssueView'])->name('library.issue.view');
+    Route::get('/issue/add', [LibraryController::class, 'IssueAdd'])->name('library.issue.add');
+    Route::post('/issue/store', [LibraryController::class, 'IssueStore'])->name('library.issue.store');
+    Route::get('/issue/return/{id}', [LibraryController::class, 'IssueReturn'])->name('library.issue.return');
+});
+
+/// Transport Management Routes
+Route::prefix('transport')->group(function(){
+    Route::get('/vehicle/view', [TransportController::class, 'VehicleView'])->name('transport.vehicle.view');
+    Route::get('/vehicle/add', [TransportController::class, 'VehicleAdd'])->name('transport.vehicle.add');
+    Route::post('/vehicle/store', [TransportController::class, 'VehicleStore'])->name('transport.vehicle.store');
+    Route::get('/vehicle/edit/{id}', [TransportController::class, 'VehicleEdit'])->name('transport.vehicle.edit');
+    Route::post('/vehicle/update/{id}', [TransportController::class, 'VehicleUpdate'])->name('transport.vehicle.update');
+    Route::get('/vehicle/delete/{id}', [TransportController::class, 'VehicleDelete'])->name('transport.vehicle.delete');
+
+    Route::get('/route/view', [TransportController::class, 'RouteView'])->name('transport.route.view');
+    Route::get('/route/add', [TransportController::class, 'RouteAdd'])->name('transport.route.add');
+    Route::post('/route/store', [TransportController::class, 'RouteStore'])->name('transport.route.store');
+    Route::get('/route/edit/{id}', [TransportController::class, 'RouteEdit'])->name('transport.route.edit');
+    Route::post('/route/update/{id}', [TransportController::class, 'RouteUpdate'])->name('transport.route.update');
+    Route::get('/route/delete/{id}', [TransportController::class, 'RouteDelete'])->name('transport.route.delete');
+
+    Route::get('/student/view', [TransportController::class, 'StudentTransportView'])->name('transport.student.view');
+    Route::get('/student/add', [TransportController::class, 'StudentTransportAdd'])->name('transport.student.add');
+    Route::post('/student/store', [TransportController::class, 'StudentTransportStore'])->name('transport.student.store');
+    Route::get('/student/delete/{id}', [TransportController::class, 'StudentTransportDelete'])->name('transport.student.delete');
+});
 
 
  

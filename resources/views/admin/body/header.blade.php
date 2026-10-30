@@ -58,3 +58,59 @@ function toggleFullscreen() {
     }
 }
 </script>
+
+<!-- Notification Modal -->
+<div class="modal fade" id="notificationModal" tabindex="-1" aria-labelledby="notificationModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content shadow-lg border-0" style="border-radius: 1rem; overflow: hidden;">
+            <div class="modal-header bg-primary text-white py-3">
+                <h5 class="modal-title fs-6 fw-bold" id="notificationModalLabel"><i class="bi bi-bell-fill me-2"></i>Notifications & Alerts</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-0">
+                <div class="list-group list-group-flush">
+                    <a href="{{ route('student.registration.view') }}" class="list-group-item list-group-item-action p-3 d-flex gap-3 align-items-start border-bottom">
+                        <div class="rounded-circle bg-primary-subtle text-primary p-2 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                            <i class="bi bi-person-plus-fill fs-5"></i>
+                        </div>
+                        <div class="flex-grow-1">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h6 class="mb-1 fw-bold fs-6">New Student Registration</h6>
+                                <small class="text-muted">Today</small>
+                            </div>
+                            <p class="mb-0 text-muted small">Aarav Gupta enrolled into Class 10 (Morning Shift).</p>
+                        </div>
+                    </a>
+                    <a href="{{ route('employee.leave.view') }}" class="list-group-item list-group-item-action p-3 d-flex gap-3 align-items-start border-bottom">
+                        <div class="rounded-circle bg-warning-subtle text-warning p-2 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                            <i class="bi bi-calendar-event-fill fs-5"></i>
+                        </div>
+                        <div class="flex-grow-1">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h6 class="mb-1 fw-bold fs-6">Leave Application Pending</h6>
+                                <small class="text-muted">Yesterday</small>
+                            </div>
+                            <p class="mb-0 text-muted small">Sunita Rao requested 1 day Medical Treatment leave.</p>
+                        </div>
+                    </a>
+                    <a href="{{ route('student.fee.view') }}" class="list-group-item list-group-item-action p-3 d-flex gap-3 align-items-start border-bottom">
+                        <div class="rounded-circle bg-success-subtle text-success p-2 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                            <i class="bi bi-currency-rupee fs-5"></i>
+                        </div>
+                        <div class="flex-grow-1">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h6 class="mb-1 fw-bold fs-6">Fee Payment Received</h6>
+                                <small class="text-muted">2 days ago</small>
+                            </div>
+                            <p class="mb-0 text-muted small">Monthly fee collection processed for 12 students.</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="modal-footer bg-light py-2 justify-content-between">
+                <small class="text-muted">Showing recent 3 alerts</small>
+                <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

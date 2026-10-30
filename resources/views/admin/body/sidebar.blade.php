@@ -30,13 +30,24 @@
         </li>
         @endif
 
-        <li class="nav-item {{ str_starts_with($prefix, '/profile') ? 'active' : '' }}">
+        <li class="nav-item {{ str_starts_with($prefix, '/profile') || str_starts_with($prefix, '/school') ? 'active' : '' }}">
             <a href="#" class="nav-link" onclick="toggleSubmenu(this); return false;">
-                <i class="bi bi-person-badge"></i><span>Manage Profile</span><i class="bi bi-chevron-down"></i>
+                <i class="bi bi-person-badge"></i><span>School & Profile</span><i class="bi bi-chevron-down"></i>
             </a>
             <ul class="nav-submenu">
+                <li><a href="{{ route('school.profile.view') }}" class="nav-link"><i class="bi bi-dot"></i>School Master Profile</a></li>
                 <li><a href="{{ route('profile.view') }}" class="nav-link"><i class="bi bi-dot"></i>Your Profile</a></li>
                 <li><a href="{{ route('password.view') }}" class="nav-link"><i class="bi bi-dot"></i>Change Password</a></li>
+            </ul>
+        </li>
+
+        <li class="nav-item {{ str_starts_with($prefix, '/admissions') ? 'active' : '' }}">
+            <a href="#" class="nav-link" onclick="toggleSubmenu(this); return false;">
+                <i class="bi bi-person-plus"></i><span>Admissions & CRM</span><i class="bi bi-chevron-down"></i>
+            </a>
+            <ul class="nav-submenu">
+                <li><a href="{{ route('admission.enquiry.view') }}" class="nav-link"><i class="bi bi-dot"></i>Enquiry Pipeline</a></li>
+                <li><a href="{{ route('admission.enquiry.add') }}" class="nav-link"><i class="bi bi-dot"></i>Log New Enquiry</a></li>
             </ul>
         </li>
 
@@ -46,6 +57,7 @@
             </a>
             <ul class="nav-submenu">
                 <li><a href="{{ route('student.class.view') }}" class="nav-link"><i class="bi bi-dot"></i>Student Class</a></li>
+                <li><a href="{{ route('student.section.view') }}" class="nav-link"><i class="bi bi-dot"></i>Student Section</a></li>
                 <li><a href="{{ route('student.year.view') }}" class="nav-link"><i class="bi bi-dot"></i>Student Year</a></li>
                 <li><a href="{{ route('student.group.view') }}" class="nav-link"><i class="bi bi-dot"></i>Student Group</a></li>
                 <li><a href="{{ route('student.shift.view') }}" class="nav-link"><i class="bi bi-dot"></i>Student Shift</a></li>
@@ -58,16 +70,52 @@
             </ul>
         </li>
 
-        <li class="nav-item {{ str_starts_with($prefix, '/students') ? 'active' : '' }}">
+        <li class="nav-item {{ str_starts_with($prefix, '/students') || str_starts_with($prefix, '/certificates') ? 'active' : '' }}">
             <a href="#" class="nav-link" onclick="toggleSubmenu(this); return false;">
                 <i class="bi bi-mortarboard"></i><span>Student Management</span><i class="bi bi-chevron-down"></i>
             </a>
             <ul class="nav-submenu">
                 <li><a href="{{ route('student.registration.view') }}" class="nav-link"><i class="bi bi-dot"></i>Student Registration</a></li>
+                <li><a href="{{ route('student.attendance.view') }}" class="nav-link"><i class="bi bi-dot"></i>Daily Attendance</a></li>
+                <li><a href="{{ route('certificate.tc.view') }}" class="nav-link"><i class="bi bi-dot"></i>Transfer Certificate (TC)</a></li>
+                <li><a href="{{ route('certificate.bonafide.view') }}" class="nav-link"><i class="bi bi-dot"></i>Bonafide Certificate</a></li>
                 <li><a href="{{ route('roll.generate.view') }}" class="nav-link"><i class="bi bi-dot"></i>Roll Generate</a></li>
                 <li><a href="{{ route('registration.fee.view') }}" class="nav-link"><i class="bi bi-dot"></i>Registration Fee</a></li>
                 <li><a href="{{ route('monthly.fee.view') }}" class="nav-link"><i class="bi bi-dot"></i>Monthly Fee</a></li>
                 <li><a href="{{ route('exam.fee.view') }}" class="nav-link"><i class="bi bi-dot"></i>Exam Fee</a></li>
+            </ul>
+        </li>
+
+        <li class="nav-item {{ str_starts_with($prefix, '/academic') ? 'active' : '' }}">
+            <a href="#" class="nav-link" onclick="toggleSubmenu(this); return false;">
+                <i class="bi bi-calendar3"></i><span>Academics & Timetable</span><i class="bi bi-chevron-down"></i>
+            </a>
+            <ul class="nav-submenu">
+                <li><a href="{{ route('academic.timetable.view') }}" class="nav-link"><i class="bi bi-dot"></i>Class Timetable</a></li>
+                <li><a href="{{ route('academic.timetable.add') }}" class="nav-link"><i class="bi bi-dot"></i>Add Period Slot</a></li>
+            </ul>
+        </li>
+
+        <li class="nav-section">Operations</li>
+
+        <li class="nav-item {{ str_starts_with($prefix, '/library') ? 'active' : '' }}">
+            <a href="#" class="nav-link" onclick="toggleSubmenu(this); return false;">
+                <i class="bi bi-book"></i><span>Library Management</span><i class="bi bi-chevron-down"></i>
+            </a>
+            <ul class="nav-submenu">
+                <li><a href="{{ route('library.book.view') }}" class="nav-link"><i class="bi bi-dot"></i>Book Catalog</a></li>
+                <li><a href="{{ route('library.issue.view') }}" class="nav-link"><i class="bi bi-dot"></i>Circulation Counter</a></li>
+            </ul>
+        </li>
+
+        <li class="nav-item {{ str_starts_with($prefix, '/transport') ? 'active' : '' }}">
+            <a href="#" class="nav-link" onclick="toggleSubmenu(this); return false;">
+                <i class="bi bi-bus-front"></i><span>Transport Fleet</span><i class="bi bi-chevron-down"></i>
+            </a>
+            <ul class="nav-submenu">
+                <li><a href="{{ route('transport.vehicle.view') }}" class="nav-link"><i class="bi bi-dot"></i>Vehicles & Fleet</a></li>
+                <li><a href="{{ route('transport.route.view') }}" class="nav-link"><i class="bi bi-dot"></i>Bus Routes</a></li>
+                <li><a href="{{ route('transport.student.view') }}" class="nav-link"><i class="bi bi-dot"></i>Student Allocations</a></li>
             </ul>
         </li>
 
