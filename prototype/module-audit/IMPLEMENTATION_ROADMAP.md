@@ -129,3 +129,4 @@ flowchart TD
 | **Phase 1** | 3 Weeks | Daily Student Attendance, Admission CRM, SIS Locker, Timetable | Full admission-to-classroom workflow functional |
 | **Phase 2** | 4 Weeks | Late fines, Printable Receipts, Admit Cards, Payroll, Bus, Library | Financial integrity & operational management active |
 | **Phase 3** | 4 Weeks | Parent/Student/Teacher Portals, SMS Broadcasts, UDISE+, MIS | Multi-role self-service & executive analytics live |
+

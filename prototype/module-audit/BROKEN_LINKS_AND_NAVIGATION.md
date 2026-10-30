@@ -60,3 +60,4 @@ This document catalogues all broken links, unrouted menu destinations, dead plac
   - Sidebar collapse works via `#sidebarToggle` and `.sidebar-overlay` overlay backdrop.
   - However, data tables with 10+ columns (such as `student_view.blade.php` and `assign_subject_view.blade.php`) cause horizontal overflow on viewport widths under 768px.
   - *Fix:* Wrap all table markup in `<div class="table-responsive">` with custom horizontal scrollbars.
+

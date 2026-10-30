@@ -13,7 +13,7 @@
         </div>
     </div>
     <div class="header-right">
-        <button class="header-icon-btn" title="Notifications">
+        <button class="header-icon-btn" title="Notifications" data-bs-toggle="modal" data-bs-target="#notificationModal">
             <i class="bi bi-bell"></i>
             <span class="notification-dot"></span>
         </button>
