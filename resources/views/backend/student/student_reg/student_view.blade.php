@@ -49,7 +49,7 @@
             </div>
             <div class="card-body">
                 <div class="table-responsive">
-                    @if(!@search)
+                    @if(!isset($search))
                     <table id="example1" class="table table-bordered table-striped">
                         <thead>
                             <tr>
@@ -89,7 +89,20 @@
                         </tbody>
                         <tfoot></tfoot>
                     </table>
-                    @endif
+                    @else
+                    <table id="example1" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th width="5%">SL</th>
+                                <th>Name</th>
+                                <th>ID No</th>
+                                <th>Roll</th>
+                                <th>Year</th>
+                                <th>Class</th>
+                                <th>Image</th>
+                                @if(Auth::user()->role == "Admin")
+                                <th>Code</th>
+                                @endif
                                 <th width="25%">Action</th>
                             </tr>
                         </thead>

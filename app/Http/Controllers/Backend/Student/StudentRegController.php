@@ -23,10 +23,14 @@ class StudentRegController extends Controller
     	$data['years'] = StudentYear::all();
     	$data['classes'] = StudentClass::all();
 
-    	$data['year_id'] = StudentYear::orderBy('id','desc')->first()->id;
-    	$data['class_id'] = StudentClass::orderBy('id','desc')->first()->id;
-    	// dd($data['class_id']);
-    	$data['allData'] = AssignStudent::where('year_id',$data['year_id'])->where('class_id',$data['class_id'])->get();
+    	$year = StudentYear::orderBy('id','desc')->first();
+    	$class = StudentClass::orderBy('id','desc')->first();
+    	$data['year_id'] = $year?->id;
+    	$data['class_id'] = $class?->id;
+
+    	$data['allData'] = ($data['year_id'] && $data['class_id'])
+    		? AssignStudent::where('year_id',$data['year_id'])->where('class_id',$data['class_id'])->get()
+    		: collect();
     	return view('backend.student.student_reg.student_view',$data);
 
     }
