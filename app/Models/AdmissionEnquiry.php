@@ -16,3 +16,4 @@ class AdmissionEnquiry extends Model
         return $this->belongsTo(StudentClass::class, 'class_id', 'id');
     }
 }
+

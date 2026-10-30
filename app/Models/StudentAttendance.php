@@ -31,3 +31,4 @@ class StudentAttendance extends Model
         return $this->belongsTo(StudentSection::class, 'section_id', 'id');
     }
 }
+

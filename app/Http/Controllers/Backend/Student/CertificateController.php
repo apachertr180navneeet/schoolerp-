@@ -74,3 +74,4 @@ class CertificateController extends Controller
         return $pdf->stream('bonafide_certificate_' . $student_id . '.pdf');
     }
 }
+

@@ -116,3 +116,4 @@ class StudentAttendanceController extends Controller
         return view('backend.student.student_attendance.student_attendance_details', compact('details', 'date', 'class'));
     }
 }
+

@@ -11,3 +11,4 @@ class SchoolSetting extends Model
 
     protected $guarded = [];
 }
+

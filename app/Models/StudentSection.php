@@ -11,3 +11,4 @@ class StudentSection extends Model
 
     protected $guarded = [];
 }
+

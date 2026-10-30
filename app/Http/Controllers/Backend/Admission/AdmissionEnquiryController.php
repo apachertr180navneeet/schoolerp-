@@ -125,3 +125,4 @@ class AdmissionEnquiryController extends Controller
         return redirect()->route('admission.enquiry.view')->with($notification);
     }
 }
+

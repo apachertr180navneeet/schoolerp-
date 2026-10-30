@@ -7,8 +7,10 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="icon" href="{{ asset('backend/images/favicon.ico') }}">
     <title>Shiksha Mitra - Dashboard</title>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/modern-theme.css') }}">
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css">
     @livewireStyles
 </head>
@@ -18,6 +20,7 @@
     @include('admin.body.header')
     <div class="content-wrapper">
         @yield('admin')
+        @include('admin.body.footer')
     </div>
     <div class="sidebar-overlay" id="sidebarOverlay"></div>
 </div>

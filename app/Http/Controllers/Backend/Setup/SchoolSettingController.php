@@ -68,3 +68,4 @@ class SchoolSettingController extends Controller
         return redirect()->back()->with($notification);
     }
 }
+
