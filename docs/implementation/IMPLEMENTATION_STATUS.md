@@ -52,3 +52,4 @@ The comprehensive implementation sprint for **Shiksha Mitra School ERP** has com
 
 3. **Auditability & Traceability:**
    - Dedicated `activity_logs` tracking user events (LOGIN, CREATE, UPDATE, DELETE, ALLOTMENT, RETURN) with timestamp, actor name, and IP address.
+

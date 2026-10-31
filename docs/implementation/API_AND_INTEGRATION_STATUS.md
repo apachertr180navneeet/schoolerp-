@@ -51,3 +51,4 @@ The application provides AJAX endpoints for live dependent dropdowns:
 - `GET /students/exam/fee/classwisedata`: Dynamic exam fee calculation.
 - `GET /employee/attendance/getemployee`: Attendance roster loader by date.
 - `GET /accounts/account/salary/getemployee`: Payroll employee monthly calculation endpoint.
+

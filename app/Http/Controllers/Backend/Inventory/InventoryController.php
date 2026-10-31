@@ -144,3 +144,4 @@ class InventoryController extends Controller
         return redirect()->route('inventory.issue.view')->with($notification);
     }
 }
+

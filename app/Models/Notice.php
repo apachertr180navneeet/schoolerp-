@@ -16,3 +16,4 @@ class Notice extends Model
         return $this->belongsTo(User::class, 'posted_by', 'id');
     }
 }
+

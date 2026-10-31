@@ -51,3 +51,4 @@ class StudentMedicalController extends Controller
         return redirect()->route('student.medical.view')->with($notification);
     }
 }
+

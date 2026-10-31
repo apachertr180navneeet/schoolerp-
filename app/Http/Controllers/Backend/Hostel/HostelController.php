@@ -103,3 +103,4 @@ class HostelController extends Controller
         return redirect()->route('hostel.allotment.view')->with($notification);
     }
 }
+

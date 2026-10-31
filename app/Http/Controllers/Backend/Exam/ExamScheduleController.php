@@ -116,3 +116,4 @@ class ExamScheduleController extends Controller
         return $pdf->stream('Admit_Card_' . $assignStudent->student->id_no . '.pdf');
     }
 }
+

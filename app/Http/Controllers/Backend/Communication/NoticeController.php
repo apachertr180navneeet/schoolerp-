@@ -63,3 +63,4 @@ class NoticeController extends Controller
         return redirect()->route('notice.view')->with($notification);
     }
 }
+

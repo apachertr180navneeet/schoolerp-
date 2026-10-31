@@ -21,3 +21,4 @@ class InventoryItem extends Model
         return $this->hasMany(InventoryIssue::class, 'item_id', 'id');
     }
 }
+

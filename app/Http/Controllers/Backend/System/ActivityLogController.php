@@ -25,3 +25,4 @@ class ActivityLogController extends Controller
         return view('backend.system.activity_log_view', compact('allData', 'modules'));
     }
 }
+

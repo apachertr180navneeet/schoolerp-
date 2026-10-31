@@ -21,3 +21,4 @@ class StudentHostel extends Model
         return $this->belongsTo(HostelRoom::class, 'room_id', 'id');
     }
 }
+

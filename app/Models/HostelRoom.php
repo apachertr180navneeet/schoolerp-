@@ -21,3 +21,4 @@ class HostelRoom extends Model
         return $this->student_hostels()->where('status', 'Occupied')->count();
     }
 }
+

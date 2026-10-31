@@ -87,3 +87,4 @@ class StudentLeaveController extends Controller
         return redirect()->route('student.leave.view')->with($notification);
     }
 }
+

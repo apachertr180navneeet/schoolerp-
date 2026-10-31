@@ -169,3 +169,4 @@
 - `description` (varchar 255)
 - `ip_address` (varchar 50, nullable)
 - `created_at`, `updated_at` (timestamps)
+

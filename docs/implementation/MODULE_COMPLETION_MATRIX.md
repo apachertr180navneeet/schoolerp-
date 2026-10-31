@@ -59,3 +59,4 @@
 | 53 | Compliance & Affiliation | `SchoolSettingController`, `CertificateController` | `SchoolSetting` | `backend/setup/school_setting/*` | Complete |
 | 54 | Alumni Lifecycle & Records | `StudentRegController` | `AssignStudent`, `User` | `backend/student/student_reg/*` | Complete |
 | 55 | Reports & MIS Analytics | `ReportController`, `AttenReportController`, `MarkSheetController` | `StudentMarks`, `StudentAttendance` | `backend/report/*` | Complete |
+

@@ -89,3 +89,4 @@ class VisitorController extends Controller
         return redirect()->route('visitor.view')->with($notification);
     }
 }
+

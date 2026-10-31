@@ -26,3 +26,4 @@ class ExamSchedule extends Model
         return $this->belongsTo(SchoolSubject::class, 'subject_id', 'id');
     }
 }
+

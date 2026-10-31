@@ -11,3 +11,4 @@ class Visitor extends Model
 
     protected $guarded = [];
 }
+
